@@ -48,6 +48,18 @@ public class CustomerServiceImpl implements CustomerService {
         // Лабораторная 2: добавить код который бы проверял, что нет customer'а c таким же login (email'ом).
         // Попробовать добавить другие ограничения, посмотреть как быстро растет кодовая база тестов.
 
+        if(customer.login == null){
+            throw new IllegalArgumentException("Field 'customer.login' is null.");
+        }
+
+        if(!customer.login.contains("@")){
+            throw new IllegalArgumentException("Wrong format of field 'customer.login'.");
+        }
+
+        if(repository.getCustomerByLogin(customer.login) != null){
+            throw new IllegalArgumentException("Customer with this login already exists.");
+        }
+
         return repository.createCustomer(customer);
     }
 
