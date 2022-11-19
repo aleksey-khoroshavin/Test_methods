@@ -2,7 +2,64 @@
 <suite verbose="1" name="API Tests" annotations="JDK" parallel="tests">
     <test name="AuthTest">
         <classes>
-            <class name="org.nsu.fit.tests.api.AuthTest" />
+            <class name="org.nsu.fit.tests.api.auth.AuthAsAdminTest"/>
+            <class name="org.nsu.fit.tests.api.auth.AuthAsCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerTest">
+        <classes>
+            <class name="org.nsu.fit.tests.api.customer.CreateCustomerTest"/>
+            <class name="org.nsu.fit.tests.api.customer.DeleteCustomerTest"/>
+            <class name="org.nsu.fit.tests.api.customer.GetCustomersTest"/>
+            <class name="org.nsu.fit.tests.api.customer.TopUpBalanceTest"/>
+            <class name="org.nsu.fit.tests.api.error.CreateExistingLoginCustomerTest"/>
+        </classes>
+    </test>
+    <test name="PlanTest">
+        <classes>
+            <class name="org.nsu.fit.tests.api.plan.CreatePlanTest"/>
+            <class name="org.nsu.fit.tests.api.plan.DeletePlanTest"/>
+            <class name="org.nsu.fit.tests.api.plan.GetAvailablePlansTest"/>
+        </classes>
+    </test>
+    <test name="CustomerError-Too Easy Password">
+        <parameter name="password" value="123qwe"/>
+        <classes>
+            <class name="org.nsu.fit.tests.api.error.CreateInvalidPasswordCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerError-Too Long Password">
+        <parameter name="password" value="toLongPasswordExample"/>
+        <classes>
+            <class name="org.nsu.fit.tests.api.error.CreateInvalidPasswordCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerError-Too Short Password">
+        <parameter name="password" value="short"/>
+        <classes>
+            <class name="org.nsu.fit.tests.api.error.CreateInvalidPasswordCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerError-Null Password">
+        <classes>
+            <class name="org.nsu.fit.tests.api.error.CreateInvalidPasswordCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerError Incorrect Login">
+        <parameter name="login" value="incorrectLogin"/>
+        <classes>
+            <class name="org.nsu.fit.tests.api.error.CreateInvalidLoginCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerError Null Login">
+        <classes>
+            <class name="org.nsu.fit.tests.api.error.CreateInvalidLoginCustomerTest"/>
+        </classes>
+    </test>
+    <test name="SubscriptionTest">
+        <classes>
+            <class name="org.nsu.fit.tests.api.subscription.CreateSubscriptionTest"/>
+            <class name="org.nsu.fit.tests.api.subscription.DeleteSubscriptionTest"/>
         </classes>
     </test>
 </suite>
