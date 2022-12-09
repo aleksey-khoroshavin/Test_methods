@@ -109,6 +109,16 @@ public class RestClient {
         return (Arrays.stream(Objects.requireNonNull(get("available_plans", "", PlanPojo[].class, customerToken, null))).collect(Collectors.toList()));
     }
 
+    public List<PlanPojo> getPlans(AccountTokenPojo adminToken) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("customer_id", adminToken.id.toString());
+        return Arrays.stream(Objects.requireNonNull(get("plans", "", PlanPojo[].class, adminToken, queryParams))).collect(Collectors.toList());
+    }
+
+    public void deletePlanPojo(PlanPojo planPojo, AccountTokenPojo adminToken) {
+        delete("plans/" + planPojo.id, "", void.class, adminToken);
+    }
+
     private static <R> R post(String path, String body, Class<R> responseType, AccountTokenPojo accountToken) {
         // Лабораторная 3: Добавить обработку Responses и Errors. Выводите их в лог.
         // Подумайте почему в filter нет Response чтобы можно было удобно его сохранить.

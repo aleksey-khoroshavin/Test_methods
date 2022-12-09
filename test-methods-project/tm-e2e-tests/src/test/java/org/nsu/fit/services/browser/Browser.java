@@ -1,7 +1,12 @@
 package org.nsu.fit.services.browser;
 
 import io.qameta.allure.Attachment;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
@@ -10,7 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.Closeable;
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,6 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Browser implements Closeable {
     private WebDriver webDriver;
+    private WebDriverWait webDriverWait;
 
     public Browser() {
         // create web driver.
@@ -58,6 +63,7 @@ public class Browser implements Closeable {
             }
 
             webDriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            webDriverWait = new WebDriverWait(webDriver, 60);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -83,6 +89,7 @@ public class Browser implements Closeable {
     public Browser click(By element) {
         makeScreenshot();
         webDriver.findElement(element).click();
+        makeScreenshot();
         return this;
     }
 
@@ -99,16 +106,37 @@ public class Browser implements Closeable {
 
     public boolean isElementPresent(By element) {
         makeScreenshot();
-        return webDriver.findElements(element).size() != 0;
+        try {
+            webDriver.findElement(element);
+            return true;
+        } catch (NoSuchElementException exception) {
+            return false;
+        }
     }
 
     @Attachment(value = "Page screenshot", type = "image/png")
     public byte[] makeScreenshot() {
-        return ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.BYTES);
+        webDriver.manage().window().maximize();
+        return ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES);
     }
 
     @Override
     public void close() {
         webDriver.close();
+    }
+
+    public void waitElementToBecomeInvisible(By element) {
+        WebDriverWait wait = new WebDriverWait(webDriver, 60);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
+    }
+
+    public Boolean waitPage() {
+        return webDriverWait.until(webDriver -> ((JavascriptExecutor) webDriver)
+                .executeScript("return document.readyState").equals("complete"));
+    }
+
+    public Boolean containsTitle(String title) {
+        System.out.println(webDriver.getCurrentUrl());
+        return webDriver.getCurrentUrl() != null && webDriver.getCurrentUrl().contains(title);
     }
 }

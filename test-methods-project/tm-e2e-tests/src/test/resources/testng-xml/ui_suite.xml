@@ -1,8 +1,31 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite verbose="1" name="UI Tests" annotations="JDK" parallel="tests">
-    <test name="AcceptanceTest">
+    <test name="AuthTestUI">
         <classes>
-            <class name="org.nsu.fit.tests.ui.CreateCustomerTest" />
+            <class name="org.nsu.fit.tests.ui.auth.AuthAsAdminTest"/>
+            <class name="org.nsu.fit.tests.ui.auth.AuthAsCustomerTest"/>
+        </classes>
+    </test>
+    <test name="CustomerTestUI">
+        <classes>
+            <class name="org.nsu.fit.tests.ui.customer.CreateCustomerTest"/>
+            <class name="org.nsu.fit.tests.ui.customer.CancelCustomerCreateTest"/>
+            <class name="org.nsu.fit.tests.ui.customer.DeleteCreatedCustomerTest"/>
+            <class name="org.nsu.fit.tests.ui.customer.TopUpCustomerBalanceTest"/>
+        </classes>
+    </test>
+    <test name="PlanTestUI">
+        <classes>
+            <class name="org.nsu.fit.tests.ui.plan.CreatePlanTest"/>
+            <class name="org.nsu.fit.tests.ui.plan.CancelPlanCreateTest"/>
+            <class name="org.nsu.fit.tests.ui.plan.DeleteCreatedPlanTest"/>
+            <class name="org.nsu.fit.tests.ui.plan.SubscribeToPlanTest"/>
+        </classes>
+    </test>
+    <test name="ErrorTestUI">
+        <classes>
+            <class name="org.nsu.fit.tests.ui.error.CreateCustomerWithInvalidPassTest"/>
+            <class name="org.nsu.fit.tests.ui.error.CreateCustomerWithInvalidLoginTest"/>
         </classes>
     </test>
 </suite>
