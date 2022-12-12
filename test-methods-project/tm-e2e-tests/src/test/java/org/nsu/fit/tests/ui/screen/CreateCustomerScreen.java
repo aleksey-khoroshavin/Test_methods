@@ -2,6 +2,7 @@ package org.nsu.fit.tests.ui.screen;
 
 import org.nsu.fit.services.browser.Browser;
 import org.nsu.fit.shared.Screen;
+import org.openqa.selenium.By;
 
 public class CreateCustomerScreen extends Screen {
     public CreateCustomerScreen(Browser browser) {
@@ -9,22 +10,22 @@ public class CreateCustomerScreen extends Screen {
     }
 
     public CreateCustomerScreen fillEmail(String email) {
-        // TODO: Please implement this...
+        browser.typeText(By.name("login"), email);
         return this;
     }
 
     public CreateCustomerScreen fillPassword(String password) {
-        // TODO: Please implement this...
+        browser.typeText(By.name("pass"), password);
         return this;
     }
 
     public CreateCustomerScreen fillFirstName(String firstName) {
-        // TODO: Please implement this...
+        browser.typeText(By.name("firstName"), firstName);
         return this;
     }
 
     public CreateCustomerScreen fillLastName(String lastName) {
-        // TODO: Please implement this...
+        browser.typeText(By.name("lastName"), lastName);
         return this;
     }
 
@@ -32,12 +33,12 @@ public class CreateCustomerScreen extends Screen {
     // когда при нажатии на кнопку Submit ('Create') не произойдет переход на AdminScreen,
     // а будет показана та или иная ошибка на текущем скрине.
     public AdminScreen clickSubmit() {
-        // TODO: Please implement this...
+        browser.click(By.xpath("//button[@type = 'submit']"));
         return new AdminScreen(browser);
     }
 
     public AdminScreen clickCancel() {
-        // TODO: Please implement this...
+        browser.click(By.xpath("//button"));
         return new AdminScreen(browser);
     }
 }
